@@ -13,6 +13,10 @@ initDb();
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.json({ message: 'This is the Nordic Verse API server. Use /health, /auth/register, /auth/login, /me, or /profiles.', web: 'http://localhost:3004' });
+});
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'api' });
 });
