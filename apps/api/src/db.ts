@@ -115,11 +115,27 @@ export function getProfileByUserId(userId: number) {
   return db.data!.profiles.find((profile) => profile.userId === userId);
 }
 
+export function updateProfile(userId: number, updates: Partial<Pick<Profile, 'displayName' | 'avatarUrl' | 'bio'>>) {
+  const profile = db.data!.profiles.find((item) => item.userId === userId);
+  if (!profile) return null;
+  if (updates.displayName !== undefined) profile.displayName = updates.displayName;
+  if (updates.avatarUrl !== undefined) profile.avatarUrl = updates.avatarUrl;
+  if (updates.bio !== undefined) profile.bio = updates.bio;
+  db.write();
+  return profile;
+}
+
 export function createScore(userId: number, mapId: number, score: number) {
   const id = db.data!.lastId++;
   db.data!.scores.push({ id, userId, mapId, score, createdAt: new Date().toISOString() });
   db.write();
   return id;
+}
+
+export function getScoresByUser(userId: number) {
+  return db.data!.scores
+    .filter((item) => item.userId === userId)
+    .sort((a, b) => a.score - b.score);
 }
 
 export function getLeaderboard(mapId: number, limit = 10) {

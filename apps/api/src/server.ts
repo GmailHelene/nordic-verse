@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { initDb, createUser, getUserByEmail, createProfile, getProfileByUserId, getUserById, getAllProfiles, createScore, getLeaderboard } from './db.js';
+import { initDb, createUser, getUserByEmail, createProfile, getProfileByUserId, getUserById, getAllProfiles, createScore, getLeaderboard, updateProfile, getScoresByUser } from './db.js';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -77,6 +77,57 @@ app.get('/me', (req, res) => {
 app.get('/profiles', (req, res) => {
   const profiles = getAllProfiles();
   res.json({ profiles });
+});
+
+app.put('/profile', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Manglende autorisasjon.' });
+  }
+
+  const token = authHeader.substring(7);
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as { userId: number; role: string };
+    const user = getUserById(payload.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Bruker ikke funnet.' });
+    }
+
+    const { displayName, avatarUrl, bio } = req.body;
+    const profile = updateProfile(user.id, { displayName, avatarUrl, bio });
+    if (!profile) {
+      return res.status(404).json({ error: 'Profil ikke funnet.' });
+    }
+
+    return res.json({ profile });
+  } catch (error) {
+    return res.status(401).json({ error: 'Ugyldig eller utløpt token.' });
+  }
+});
+
+app.get('/scores/me', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Manglende autorisasjon.' });
+  }
+
+  const token = authHeader.substring(7);
+  try {
+    const payload = jwt.verify(token, JWT_SECRET) as { userId: number; role: string };
+    const user = getUserById(payload.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Bruker ikke funnet.' });
+    }
+
+    const scores = getScoresByUser(user.id).map((score) => ({
+      mapId: score.mapId,
+      score: score.score,
+      createdAt: score.createdAt
+    }));
+    return res.json({ scores });
+  } catch (error) {
+    return res.status(401).json({ error: 'Ugyldig eller utløpt token.' });
+  }
 });
 
 app.get('/leaderboard', (req, res) => {
