@@ -1,6 +1,6 @@
 # Nordic Verse
 
-Monorepo-skisse for et sosialt 3D-spill og UGC-editor med Next.js, Three.js, Supabase og real-time Node-tjenester.
+Monorepo-skisse for et sosialt 3D-spill og UGC-editor med Next.js, Three.js, lokal SQLite-database og real-time Node-tjenester.
 
 ## Struktur
 
@@ -28,7 +28,7 @@ npm run dev
 
 ## Neste steg
 
-- Legge til Supabase-skjema og autentisering
+- Legge til lokal database og autentisering (SQLite + JWT)
 - Implementere Three.js-lobby og parkour-scene
 - Bygge UGC-editor med grid-basert blokkplassering
 - Lage foreldre/admin-panel og rollebasert tilgang

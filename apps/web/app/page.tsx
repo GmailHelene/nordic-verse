@@ -17,18 +17,18 @@ export default function Home() {
           </div>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Link href="#roadmap" className="rounded-full bg-nordic-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-nordic-400">
-              Se roadmap
+            <Link href="/login" className="rounded-full bg-nordic-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-nordic-400">
+              Logg inn
             </Link>
-            <Link href="#tech" className="rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-800/90">
-              Teknisk stack
+            <Link href="/register" className="rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-800/90">
+              Registrer
             </Link>
           </div>
         </div>
 
         <section id="tech" className="mt-16 space-y-6">
           <Section title="Teknisk stack">
-            <p>Next.js + React + Tailwind for UI. Three.js for 3D. Node.js for API og realtime. Supabase for auth, database og storage.</p>
+            <p>Next.js + React + Tailwind for UI. Three.js for 3D. Node.js for API og realtime. Lokal SQLite + JWT for auth og data.</p>
           </Section>
           <Section title="MVP-kjernefunksjoner">
             <ul className="list-disc space-y-2 pl-5 text-slate-300">
@@ -44,7 +44,7 @@ export default function Home() {
         <section id="roadmap" className="mt-16 rounded-3xl border border-white/10 bg-slate-900/80 p-10">
           <h2 className="text-3xl font-semibold text-nordic-100">Roadmap</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <RoadmapItem title="1–2" subtitle="Fundament" description="Monorepo, Next.js, Supabase og API skeleton." />
+            <RoadmapItem title="1–2" subtitle="Fundament" description="Monorepo, Next.js, lokal database og API skeleton." />
             <RoadmapItem title="3–4" subtitle="Hub + konkurranse" description="3D lobby, hardkodet parkour og leaderboard." />
             <RoadmapItem title="5–6" subtitle="UGC-editor" description="Grid-builder, lagring av baner og testmodus." />
           </div>
