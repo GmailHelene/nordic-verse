@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { initDb, createUser, getUserByEmail, createProfile, getProfileByUserId, getUserById, getAllProfiles } from './db';
+import { initDb, createUser, getUserByEmail, createProfile, getProfileByUserId, getUserById, getAllProfiles } from './db.js';
 
 const app = express();
 const port = process.env.PORT || 4000;

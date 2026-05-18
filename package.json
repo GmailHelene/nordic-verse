@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "dev": "turbo dev",
+    "dev:api-web": "turbo dev --filter=api --filter=web",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "start": "turbo run start"
