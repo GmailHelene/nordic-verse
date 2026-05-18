@@ -32,3 +32,4 @@ npm run dev
 - Implementere Three.js-lobby og parkour-scene
 - Bygge UGC-editor med grid-basert blokkplassering
 - Lage foreldre/admin-panel og rollebasert tilgang
+"# nordic-verse" 
