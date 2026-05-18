@@ -1,0 +1,209 @@
+1. MVP‑plan basert på stacken
+Mål: En første versjon som beviser konseptet:
+
+én sosial hub, 2) én konkurransemodus, 3) enkel UGC‑editor.
+
+Scope MVP:
+
+Kjernefunksjoner
+
+Brukerprofil: registrering, avatar, enkel profilside.
+
+Sosial hub: én 3D‑lobby (NordicHub light) i Three.js.
+
+Konkurransespill: én parkour‑/obstacle‑bane med tidtaking og leaderboard.
+
+Leaderboard: global + venneliste‑basert.
+
+Enkel UGC‑editor v0: plassere blokker/objekter i 3D og lagre “baner”.
+
+Foreldre‑modus v0: info‑side + enkel innloggingskontroll (aldersgrupper).
+
+Teknisk MVP‑stack
+
+Frontend: Next.js, React, Tailwind.
+
+3D: Three.js (WebGL først, WebGPU senere).
+
+Realtime: WebSockets (Node) for posisjon + timer.
+
+Backend: Node.js (API + realtime), Supabase (auth, DB, realtime events).
+
+DB: Supabase PostgreSQL (users, maps, scores).
+
+Storage: Supabase storage / R2 (assets).
+
+AI v0: kun moderering (tekstfilter) + litt assistanse i editor (f.eks. “fyll inn hull”).
+
+2. Arkitekturdiagram (beskrevet i tekst)
+Tenk dette som lag:
+
+Klientlag
+
+Next.js‑app: dashboard, profil, foreldre‑panel, marketplace (senere).
+
+Spillklient i nettleser: React + Three.js for hub + parkour‑bane + editor.
+
+API‑lag
+
+Node.js API:
+
+Auth‑proxy mot Supabase.
+
+Endepunkter: /profiles, /maps, /scores, /leaderboard, /friends.
+
+Realtime server (Node + WebSockets / Colyseus):
+
+Håndterer posisjoner, start/stopp av runder, synkronisering.
+
+Data‑lag
+
+Supabase PostgreSQL:
+
+users, profiles, maps, runs, scores, friendships.
+
+Supabase Realtime:
+
+Events for nye scores, nye maps, online status.
+
+Storage (Supabase / R2):
+
+3D‑assets, textures, avatar‑elementer.
+
+AI‑lag (egen microservice, Python)
+
+Moderering av chat (tekst).
+
+Enkle forslag i editor (“symmetri”, “auto‑plasser hindringer”).
+
+Admin/foreldre
+
+Eget Next.js‑område med rollebasert tilgang (parent/admin).
+
+3. Roadmap 12 måneder (realistisk, men ambisiøs)
+Måned 1–2: Fundament
+Teknisk
+
+Sett opp monorepo (f.eks. Turborepo).
+
+Next.js‑app skeleton.
+
+Supabase‑prosjekt (auth, DB‑schema v1).
+
+Node‑API skeleton.
+
+Produkt
+
+Definere målgruppe, tone, visuell retning.
+
+Navn, domenesikring, enkel brandguide.
+
+Måned 3–4: Første spill + hub
+3D‑hub v1
+
+Enkel lobby i Three.js (flat scene, noen objekter).
+
+Konkurransemodus v1
+
+Parkour‑bane hardkodet.
+
+Timer + score lagres i DB.
+
+Leaderboard‑visning i frontend.
+
+Auth & profiler
+
+Innlogging, enkel profil, avatar‑placeholder.
+
+Måned 5–6: UGC‑editor v1
+Editor v1
+
+Grid‑basert bygging (plassere blokker/hindringer).
+
+Lagre map som JSON i DB.
+
+“Spill banen din”‑knapp.
+
+AI v1
+
+Tekstmoderering (chat).
+
+Enkle editor‑forslag (“fyll ut med flere blokker her”).
+
+Måned 7–8: Sosialt & trygghet
+Venner/vennelister.
+
+Enkel chat (tekst) med moderering.
+
+Foreldre‑dashboard v1 (se spilletid, rapporter, enkel kontroll).
+
+Bedre avatar‑system (flere valg, kosmetikk).
+
+Måned 9–10: Konkurranse & events
+Sesongbasert leaderboard (reset hver X uke).
+
+Enkle events: “Ukens bane”, “Månedens creator”.
+
+Badges/achievements.
+
+Måned 11–12: Polering & pilot
+UX‑polish, performance, bugfixing.
+
+Liten lukket beta med 50–200 brukere (skole/vennekrets).
+
+Måling: retention, engasjement, hva de faktisk bruker.
+
+Plan for v2: flere spillmoduser, mer AI, mer UGC.
+
+4. Prototype‑plan for UGC‑editoren
+Mål: En web‑basert editor der en 11–16‑åring kan lage en enkel parkour‑bane og spille den.
+
+Fase 1: “Block Builder v0”
+Teknisk
+
+React‑komponent med Three.js‑scene.
+
+Kamera: enkel orbit‑kontroll.
+
+Verktøy:
+
+Velg blokk‑type (plattform, vegg, hinder).
+
+Klikk i scenen → plasser blokk på grid.
+
+Slett/flytt blokk.
+
+Lagre:
+
+Eksporter scenen som JSON (blocks: [{x,y,z,type}]).
+
+Lagre i Supabase maps‑tabell.
+
+UX
+
+Minimalistisk, få valg.
+
+“Bygg → Test → Lagre”.
+
+Fase 2: “Play Your Map”
+Last inn map‑JSON i spillklienten.
+
+Spilleren spawner på startpunkt.
+
+Timer starter ved første bevegelse.
+
+Når mål nås → score lagres.
+
+Fase 3: “Share & Compete”
+Liste over maps laget av brukeren.
+
+“Spill vennens bane”.
+
+Leaderboard per map.
+
+Fase 4: AI‑assistent v1
+Tekstfelt: “Gjør banen vanskeligere / lettere”.
+
+AI foreslår endringer i JSON (flere hindringer, lengre løype).
+
+Bruker kan godkjenne/avvise.
