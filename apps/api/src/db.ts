@@ -115,6 +115,20 @@ export function getProfileByUserId(userId: number) {
   return db.data!.profiles.find((profile) => profile.userId === userId);
 }
 
+export function createScore(userId: number, mapId: number, score: number) {
+  const id = db.data!.lastId++;
+  db.data!.scores.push({ id, userId, mapId, score, createdAt: new Date().toISOString() });
+  db.write();
+  return id;
+}
+
+export function getLeaderboard(mapId: number, limit = 10) {
+  return db.data!.scores
+    .filter((item) => item.mapId === mapId)
+    .sort((a, b) => a.score - b.score)
+    .slice(0, limit);
+}
+
 export function getAllProfiles() {
   return db.data!.users.map((user) => {
     const profile = db.data!.profiles.find((item) => item.userId === user.id);

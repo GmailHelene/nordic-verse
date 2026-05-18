@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-
-const API_URL = 'http://localhost:4000';
+import { useRouter } from 'next/navigation';
+import { API_URL } from '../../lib/auth';
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [password, setPassword] = useState('');
@@ -22,7 +23,8 @@ export default function RegisterPage() {
 
     const data = await response.json();
     if (response.ok) {
-      setMessage('Registrering vellykket. Logg inn for å fortsette.');
+      setMessage('Registrering vellykket. Sender deg til login...');
+      setTimeout(() => router.push('/login'), 1400);
     } else {
       setMessage(data.error || 'Registrering feilet.');
     }

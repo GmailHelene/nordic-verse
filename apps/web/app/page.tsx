@@ -16,12 +16,18 @@ export default function Home() {
             <Card title="Editor" description="Bygg baner med blokker og lagre dem som JSON." />
           </div>
 
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Link href="/login" className="rounded-full bg-nordic-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-nordic-400">
-              Logg inn
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Link href="/dashboard" className="rounded-full bg-nordic-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-nordic-400 text-center">
+              Dashboard
             </Link>
-            <Link href="/register" className="rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-800/90">
-              Registrer
+            <Link href="/lobby" className="rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-800/90 text-center">
+              Lobby
+            </Link>
+            <Link href="/parkour" className="rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-800/90 text-center">
+              Parkour
+            </Link>
+            <Link href="/login" className="rounded-full border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-800/90 text-center">
+              Logg inn / registrer
             </Link>
           </div>
         </div>

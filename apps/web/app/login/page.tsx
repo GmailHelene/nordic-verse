@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-
-const API_URL = 'http://localhost:4000';
+import { useRouter } from 'next/navigation';
+import { API_URL, setToken } from '../../lib/auth';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -21,8 +22,9 @@ export default function LoginPage() {
 
     const data = await response.json();
     if (response.ok) {
-      window.localStorage.setItem('nordic_token', data.token);
-      setMessage('Login successful. Gå til profil for å se brukerdata.');
+      setToken(data.token);
+      setMessage('Innlogging vellykket. Sender deg til profil...');
+      router.push('/profile');
     } else {
       setMessage(data.error || 'Innlogging feilet.');
     }
